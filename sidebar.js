@@ -8,7 +8,7 @@ const field = {
   w: window.innerWidth,
   h: window.innerHeight,
   draw: function () {
-    canvasCtx.fillStyle = "#1F7FB6"
+    canvasCtx.fillStyle = "#1F90D1"
     canvasCtx.fillRect(0, 0, this.w, this.h)
   },
 }
@@ -93,6 +93,20 @@ const ball = {
       } else {
         // pontuar o jogador 1
         score.increaseHuman()
+        this._pointUp()
+      }
+    }
+
+    if (this.x < 0) {
+
+      if (
+        this.y + this.r > leftPaddle.y &&
+        this.y - this.r < leftPaddle.y + leftPaddle.h
+      ) {
+
+        this._reverseX()
+      } else {
+        score.increaseComputer()
         this._pointUp()
       }
     }
