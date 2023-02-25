@@ -22,12 +22,12 @@ const line = {
   },
 }
 
-const leftPaddle = {
+const leftPaddle = { // raquete esquerda do jogador
   x: gapX,
   y: 0,
   w: line.w,
   h: 200,
-  _move: function () {
+  _move: function () { // função do mouse
     this.y = mouse.y - this.h / 2
   },
   draw: function () {
@@ -38,13 +38,21 @@ const leftPaddle = {
   },
 }
 
-const rightPaddle = {
+const rightPaddle = { //raquete direita computer
   x: field.w - line.w - gapX,
   y: 100,
   w: line.w,
   h: 200,
+  speed: 5,
   _move: function () {
-    this.y = ball.y
+    if (this.y + this.h / 2 < ball.y + ball.r) {
+      this.y += this.speed 
+    } else {
+      this.y -= this.speed
+    }
+  },
+  speedUp: function () {
+    this.speed += 6
   },
   draw: function () {
     canvasCtx.fillStyle = "#ffffff"
@@ -74,10 +82,10 @@ const score = {
 }
 
 const ball = {
-  x: 0,
-  y: 0,
+  x: field.w / 2,
+  y: field.h / 2,
   r: 20,
-  speed: 5,
+  speed: 7,
   directionX: 1,
   directionY: 1,
   _calcPosition: function () {
@@ -131,10 +139,11 @@ const ball = {
     this.directionY *= -1
   },
   _speedUp: function () {
-    this.speed += 3
+    this.speed += 2
   },
   _pointUp: function () {
     this._speedUp()
+    rightPaddle.speedUp()
 
     this.x = field.w / 2
     this.y = field.h / 2
@@ -171,7 +180,7 @@ function draw() {
   ball.draw()
 }
 
-window.animateFrame = (function () {
+window.animateFrame = (function () { //Função para o movimento da bolinha ficar mais suave!!!
   return (
     window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
