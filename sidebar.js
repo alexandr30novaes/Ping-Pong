@@ -97,7 +97,7 @@ const ball = {
       }
     }
 
-    if (this.x < 0) {
+    if (this.x < this.r + leftPaddle.w + gapX) {
 
       if (
         this.y + this.r > leftPaddle.y &&
@@ -130,7 +130,12 @@ const ball = {
     // -1 * -1 = 1
     this.directionY *= -1
   },
+  _speedUp: function () {
+    this.speed += 3
+  },
   _pointUp: function () {
+    this._speedUp()
+
     this.x = field.w / 2
     this.y = field.h / 2
   },
